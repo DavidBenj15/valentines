@@ -25,5 +25,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          "&.Mui-checked": {
+            color: "white !important"
+          }
+        },
+      },
+    },
   },
 });
