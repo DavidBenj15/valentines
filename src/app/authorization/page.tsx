@@ -4,7 +4,7 @@ import { Button, TextField, ThemeProvider, Typography } from "@mui/material";
 import Link from "next/link";
 import "@fontsource/jetbrains-mono";
 import { theme } from "../data/themes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const initialQuestions = {
   "What was my first message to you on Hinge?": "hi",
@@ -20,7 +20,6 @@ function getRandomKey(obj: Record<string, string>) {
     console.log("yep heres the issue");
     return null;
   }
-  // return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : null;
 }
 
 export default function AuthPage() {
@@ -28,6 +27,15 @@ export default function AuthPage() {
   const [numCorrect, setNumCorrect] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(getRandomKey(initialQuestions));
   const [answer, setAnswer] = useState("");
+  const [flash, setFlash] = useState(false);
+
+  useEffect(() => {
+    if (numCorrect > 0) {
+      setFlash(true);
+      const timer = setTimeout(() => setFlash(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [numCorrect]);
 
   const handleSubmit = () => {
     if (!currentQuestion) return;
@@ -48,12 +56,13 @@ export default function AuthPage() {
       
       setNumCorrect((prev) => prev + 1);
       setAnswer("");
+      setFlash(true);
     }
   };
   return (
     <ThemeProvider theme={theme}>
       <div className="fade-in-quick relative flex flex-col min-h-dvh bg-[#1E1E1E] text-white">
-        <div className="pt-16 text-center">
+        <div className="flex flex-col pt-16 text-center">
           <Typography className="p-5" variant="h2">
             Authorization
           </Typography>
@@ -65,20 +74,25 @@ export default function AuthPage() {
         <div className="flex flex-col items-center justify-center flex-grow mb-16">
           {numCorrect < 3 && currentQuestion ? (
             <>
-              <Typography className="pb-7 text-[#fdd835]" variant="h5">{currentQuestion}</Typography>
-              <TextField
-                className="bg-white text-black"
-                variant="outlined"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                sx={{ mb: 2}}
-                placeholder="Your answer"
-              />
-              <Button variant="outlined" onClick={handleSubmit}>
-                Submit
-              </Button>
+              <Typography className="pb-7 text-[#fdd835]" variant="h5">
+                {currentQuestion}
+              </Typography>
+
+              <div className="flex items-center space-x-4">
+                <TextField
+                  className="bg-white text-black"
+                  variant="outlined"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  placeholder="Your answer"
+                />
+                <Button variant="outlined" onClick={handleSubmit}>
+                  Submit
+                </Button>
+              </div>
+
               <Typography 
-                className="absolute bottom-8 right-8" 
+                className={`absolute bottom-8 right-8 ${flash ? "flash" : ""}`}
                 variant="body2"
               >
                 Correct answers: {numCorrect}/3
@@ -91,6 +105,20 @@ export default function AuthPage() {
           )}
         </div>
       </div>
+      <style jsx global>{`
+        .flash {
+          animation: flash 1s forwards;
+        }
+
+        @keyframes flash {
+          0% {
+            color: green;
+          }
+          100% {
+            color: white;
+          }
+        }
+      `}</style>
     </ThemeProvider>
   );
 }

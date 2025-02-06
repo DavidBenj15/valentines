@@ -5,6 +5,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Button, Typography, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { theme } from "../data/themes";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Question2() {
     const [inputValue, setInputValue] = useState("");
@@ -60,10 +61,15 @@ export default function Question2() {
                                 onClick={() => setInputValue("Let bf choose!")}
                             />
                         )}
+                        {inputValue === "Let bf choose!" &&
+                            <div>
+                                <Image src="/bread-pusheen.gif" alt="bread" width="250" height="250" className="rounded-xl"/>
+                            </div>
+                        }
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center justify-center flex-grow">
+                <div className="flex flex-col items-center justify-center">
                     {timeLeft === 0 && inputValue && <Link href="/question-3">
                         <Button 
                             variant="outlined" 
@@ -72,7 +78,8 @@ export default function Question2() {
                                 maxWidth: '400px',
                                 fontSize: '1.5rem',
                                 padding: '1rem',
-                                textTransform: 'none'
+                                textTransform: 'none',
+                                marginTop: '30px'
                             }}
                         >
                             Last question ->

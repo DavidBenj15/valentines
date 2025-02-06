@@ -5,6 +5,7 @@ import { Button, Typography } from "@mui/material";
 import { theme } from "../data/themes";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AuthorizedPage() {
     const lastSpawnTime = useRef(0);
@@ -50,9 +51,13 @@ export default function AuthorizedPage() {
                     <Typography>
                         Click on the button below to answer a couple of questions...
                     </Typography>
+                    <div className="flex flex-col w-full justify-center items-center">
+                        <Image src="/heart.gif" width="250" height="250" alt="pusheen" className="pb-3" />
+                    </div>
+                    
                 </div>
 
-                <div className="flex flex-col items-center justify-center flex-grow">
+                <div className="flex flex-col items-center justify-center">
                     <Link href="/question-1">
                         <Button 
                             variant="contained" 
