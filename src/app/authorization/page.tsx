@@ -5,11 +5,13 @@ import Link from "next/link";
 import "@fontsource/jetbrains-mono";
 import { theme } from "../data/themes";
 import { useState, useEffect } from "react";
-
-const initialQuestions = {
+const initialQuestions: { [key: string]: string } = {
   "What was my first message to you on Hinge?": "hi",
   "Which movie did we watch on our first date?": "spirited away",
-  "What is Yogesh's most common phrase?": "bello",
+  "What is Yogesh's most common spoken phrase?": "bello",
+  "If both of our dogs merged into one, what would its name be?": "lemaxie",
+  "Which video game we get married on?": "stardew valley",
+  "Who was performing when a random concert-goer recorded us staring at each other lovingly?": "beabadoobee"
 };
 
 function getRandomKey(obj: Record<string, string>) {
@@ -17,15 +19,16 @@ function getRandomKey(obj: Record<string, string>) {
   if (keys.length > 0) {
     return keys[Math.floor(Math.random() * keys.length)];
   } else {
-    console.log("yep heres the issue");
-    return null;
+    return "";
   }
 }
 
 export default function AuthPage() {
   const [questions, setQuestions] = useState(initialQuestions);
   const [numCorrect, setNumCorrect] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState(getRandomKey(initialQuestions));
+  const [currentQuestion, setCurrentQuestion] = useState<string>(
+    getRandomKey(initialQuestions),
+  );
   const [answer, setAnswer] = useState("");
   const [flash, setFlash] = useState(false);
 
@@ -39,9 +42,6 @@ export default function AuthPage() {
 
   const handleSubmit = () => {
     if (!currentQuestion) return;
-    // console.log("Current questions:", questions)
-    // console.log("Current question:", currentQuestion)
-    // console.log("Current answer:", questions[currentQuestion])
     const correctAnswer = questions[currentQuestion].toLowerCase();
     if (answer.trim().toLowerCase() === correctAnswer) {
       setQuestions((prevQuestions) => {
@@ -53,25 +53,28 @@ export default function AuthPage() {
 
         return updatedQuestions;
       });
-      
+
       setNumCorrect((prev) => prev + 1);
       setAnswer("");
       setFlash(true);
+    } else {
+      setCurrentQuestion(getRandomKey(questions));
     }
   };
   return (
     <ThemeProvider theme={theme}>
       <div className="fade-in-quick relative flex flex-col min-h-dvh bg-[#1E1E1E] text-white">
-        <div className="flex flex-col pt-16 text-center">
+        <div className="flex flex-col pt-16 text-center mx-5">
           <Typography className="p-5" variant="h2">
             Authorization
           </Typography>
           <Typography>
-            To make sure it's really you, please answer 3 questions correctly.
+            To make sure only the correct person can enter this website
+            please answer 3 questions correctly.
           </Typography>
         </div>
 
-        <div className="flex flex-col items-center justify-center flex-grow mb-16">
+        <div className="flex flex-col items-center justify-center flex-grow mb-16 mx-3 text-center">
           {numCorrect < 3 && currentQuestion ? (
             <>
               <Typography className="pb-7 text-[#fdd835]" variant="h5">
@@ -91,7 +94,7 @@ export default function AuthPage() {
                 </Button>
               </div>
 
-              <Typography 
+              <Typography
                 className={`absolute bottom-8 right-8 ${flash ? "flash" : ""}`}
                 variant="body2"
               >

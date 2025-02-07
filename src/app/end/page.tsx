@@ -1,13 +1,13 @@
 "use client";
 
 import { ThemeProvider } from "@emotion/react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Link } from "@mui/material";
 import { theme } from "../data/themes";
-import { useEffect, useRef } from "react";
-import Link from "next/link";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
+import NextLink from "next/link";
 
-export default function AuthorizedPage() {
+export default function End() {
   const lastSpawnTime = useRef(0);
 
   useEffect(() => {
@@ -37,61 +37,51 @@ export default function AuthorizedPage() {
     document.addEventListener("mousemove", handleMouseMove);
     return () => document.removeEventListener("mousemove", handleMouseMove);
   }, []);
-
   return (
     <ThemeProvider theme={theme}>
       <div className="relative flex flex-col min-h-dvh bg-[#F06292] text-white">
-        <div className="pt-10 text-center">
-          <Typography className="p-5" variant="h2">
-            Hi!
+        <div className="pt-12 text-center">
+          <Typography className="p-7" variant="h2">
+            {"Thank you bae <3"}
           </Typography>
           <Typography>
-            Hi bae! Welcome to this super secret website that I made only for
-            you.
+            I hope you enjoyed this little valentine&apos;s day questionnaire I made
           </Typography>
           <Typography>
-            Click on the button below to answer a couple of questions...
+            and I hope you answered yes (+definitely +absolutely?) to being my
+            valentine🤞
           </Typography>
-          <div className="flex w-full justify-center items-center py-5">
-            <Image
-              src="/lex.JPG"
-              width="200"
-              height="250"
-              alt="lex"
-              className=""
-            />
-            <Image
-              src="/heart.gif"
-              width="250"
-              height="250"
-              alt="heart"
-              className="mx-10"
-            />
-            <Image
-              src="/me.png"
-              width="250"
-              height="250"
-              alt="david"
-              className=""
-            />
-          </div>
+          <Typography>
+            You can check out the code{" "}
+            <Link href="https://github.com/DavidBenj15/valentines" color="info">
+              here
+            </Link>{" "}
+            if you&apos;re interested!
+          </Typography>
         </div>
-
-        <div className="flex flex-col items-center justify-center">
-          <Link href="/question-1">
+        <div className="w-full flex flex-col items-center pt-10">
+          <Image
+            src="/spinning.gif"
+            alt="spinning"
+            width="250"
+            height="250"
+            className="rounded-lg"
+          />
+          <NextLink href="/">
             <Button
-              variant="contained"
+              variant="outlined"
               sx={{
                 width: "100%",
                 maxWidth: "400px",
                 fontSize: "1.5rem",
                 padding: "1rem",
                 textTransform: "none",
+                marginTop: "30px",
               }}
             >
-              Click me👅
+              {"<< Restart"}
             </Button>
-          </Link>
+          </NextLink>
         </div>
       </div>
     </ThemeProvider>

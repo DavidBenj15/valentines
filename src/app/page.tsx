@@ -13,9 +13,7 @@ export default function Home() {
           <Typography variant="h1">Welcome</Typography>
         </div>
         <Link href="/authorization">
-          <Button variant="outlined">
-            Start
-          </Button>
+          <Button variant="outlined">Start</Button>
         </Link>
       </div>
     </ThemeProvider>

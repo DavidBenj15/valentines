@@ -26,7 +26,7 @@ export default function Question2() {
                         Question 2
                     </Typography>
                     <Typography>
-                        Where should we eat for Valentine's Day?
+                        {"Where should we eat for Valentine's Day?"}
                     </Typography>
 
                     <div className="flex flex-col w-full justify-center items-center mt-6">
@@ -69,7 +69,7 @@ export default function Question2() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center pb-7">
                     {timeLeft === 0 && inputValue && <Link href="/question-3">
                         <Button 
                             variant="outlined" 
@@ -82,7 +82,7 @@ export default function Question2() {
                                 marginTop: '30px'
                             }}
                         >
-                            Last question ->
+                            {"Last question ->"}
                         </Button>
                     </Link>}
                 </div>
